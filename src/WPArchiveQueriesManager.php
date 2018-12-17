@@ -27,7 +27,7 @@ namespace WaughJ\WPHelpers
 
 		public static function applyQueries( WP_Query $query ) : void
 		{
-			if ( !TestIsAdmin() && $query->is_main_query() )
+			if ( is_array( self::$queries ) && !TestIsAdmin() && $query->is_main_query() )
 			{
 				foreach ( self::$queries as $type => $args )
 				{
@@ -42,6 +42,6 @@ namespace WaughJ\WPHelpers
 			}
 		}
 
-		private static $queries;
+		private static $queries = [];
 	}
 }
