@@ -3,14 +3,19 @@
 declare( strict_types = 1 );
 namespace WaughJ\WPHelpers
 {
-	function AutoAddFunctions()
+	use WaughJ\Directory\Directory;
+	use WaughJ\File\File;
+
+	function AutoAddFunctions( string $directory_string )
 	{
-		$functions = scandir( get_stylesheet_directory() . '/functions' );
+		$directory = new Directory([ get_stylesheet_directory(), $directory_string ]);
+		$functions = scandir( $directory->getString() );
 		foreach ( $functions as $function )
 		{
 			if ( $function !== '' && $function !== '.' && $function !== '..' )
 			{
-				require_once( get_stylesheet_directory() . '/functions/' . $function );
+				$file = new File( $function, null, $directory );
+				require_once( $file->getFullFilename() );
 			}
 		}
 	}
